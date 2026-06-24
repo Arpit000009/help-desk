@@ -21,3 +21,12 @@ spring:
 
   profiles:
     active: dev
+
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG

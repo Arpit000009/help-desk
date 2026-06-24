@@ -11,6 +11,7 @@ public class AiConfig {
     @Bean
     public ChatClient chatClient(ChatClient.Builder builder){
         return builder
+                .defaultSystem("sumarize the response within 400 words.")
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
     }
