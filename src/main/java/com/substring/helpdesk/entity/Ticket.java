@@ -18,10 +18,16 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Lob
     private String summary;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
+
+    private String category;
+
+    @Column(length = 1000)
+    private String description;
 
     @Column(unique = true)
     private String username;

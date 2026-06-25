@@ -1,10 +1,13 @@
 package com.substring.helpdesk.service;
 
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.beans.factory.annotation.Value;
 import com.substring.helpdesk.tools.TicketDatabaseTool;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,12 +20,17 @@ public class AIService {
 
     private final TicketDatabaseTool ticketDatabaseTool;
 
-    public String getResponseFromAssistant(String query){
+    @Value("classpath:/helpdesk-system.st")
+    private Resource systemPromptResource;
+
+    public String getResponseFromAssistant(String query,  String conversationId){
 
         //basic call to llm
         return this.chatClient
                 .prompt()
+                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .tools(ticketDatabaseTool)
+                .system(systemPromptResource)
                 .user(query)
                 .call()
                 .content();
