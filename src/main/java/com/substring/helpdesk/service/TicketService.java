@@ -21,6 +21,7 @@ public class TicketService {
     }
 
     public Ticket updateTicket(Ticket ticket){
+        ticket.setId(null);
         return ticketRepository.save(ticket);
     }
 
@@ -28,7 +29,7 @@ public class TicketService {
         return ticketRepository.findById(ticketId).orElse(null);
     }
 
-    public Ticket getTicketByUsername(String userName){
-        return ticketRepository.findByUsername(userName).orElse(null);
+    public Ticket getTicketByEmailId(String userName){
+        return ticketRepository.findByEmail(userName).orElse(null);
     }
 }

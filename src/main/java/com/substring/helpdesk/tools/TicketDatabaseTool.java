@@ -1,6 +1,8 @@
 package com.substring.helpdesk.tools;
 
 
+import com.substring.helpdesk.DTO.CreateTicketRequest;
+import com.substring.helpdesk.entity.Status;
 import com.substring.helpdesk.entity.Ticket;
 import com.substring.helpdesk.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +15,29 @@ import org.springframework.stereotype.Component;
 public class TicketDatabaseTool {
     private final TicketService ticketService;
 
-    @Tool(description = "This tool helps to create new ticket in database.")
-    public Ticket createTicketTool(@ToolParam(description = "Ticket details") Ticket ticket){
+    @Tool(description = "This tool helps to create a new ticket in the database.")
+    public Ticket createTicketTool(
+            @ToolParam(description = "Ticket details")
+            CreateTicketRequest request) {
+
+        Ticket ticket = new Ticket();
+
+        ticket.setSummary(request.getSummary());
+        ticket.setDescription(request.getDescription());
+        ticket.setEmail(request.getEmail());
+        ticket.setCategory(request.getCategory());
+        ticket.setPriority(request.getPriority());
+
+        // Backend-managed fields
+        ticket.setStatus(Status.OPEN);
+
         return ticketService.createTicket(ticket);
     }
 
     //get ticket using username
     @Tool(description = "this tool helps to get ticket by username.")
-    public Ticket getTicketByUserName(@ToolParam(description = "username whose ticket is required") String username){
-        return ticketService.getTicketByUsername(username);
+    public Ticket getTicketByUserName(@ToolParam(description = "email id whose ticket is required") String email){
+        return ticketService.getTicketByEmailId(email);
     }
 
     @Tool(description= "this tool helps to update ticket.")
