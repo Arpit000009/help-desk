@@ -18,7 +18,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
+    @Column(length = 255)
     private String summary;
 
     @Enumerated(EnumType.STRING)
