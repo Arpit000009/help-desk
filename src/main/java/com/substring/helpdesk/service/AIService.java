@@ -1,5 +1,6 @@
 package com.substring.helpdesk.service;
 
+import com.substring.helpdesk.tools.EmailTool;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.beans.factory.annotation.Value;
 import com.substring.helpdesk.tools.TicketDatabaseTool;
@@ -19,6 +20,7 @@ public class AIService {
     private final ChatClient chatClient;
 
     private final TicketDatabaseTool ticketDatabaseTool;
+    private final EmailTool emailTool;
 
     @Value("classpath:/helpdesk-system.st")
     private Resource systemPromptResource;
@@ -29,7 +31,7 @@ public class AIService {
         return this.chatClient
                 .prompt()
                 .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .tools(ticketDatabaseTool)
+                .tools(ticketDatabaseTool,emailTool)
                 .system(systemPromptResource)
                 .user(query)
                 .call()

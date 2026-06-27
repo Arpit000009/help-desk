@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 public class EmailTool {
     @Tool(description = "This tool helps to send email to support team regarding new ticket")
     public void sendEmailTOSupportTeam(@ToolParam(description = "EmailId associated with ticket for contact information") String email,@ToolParam(description = "short description of ticket summary") String message){
-
+        //sending email to support team
+        System.out.println("going to send email to support team");
+        System.out.println("email id : "+email);
+        System.out.println("message : "+message);
     }
 }
