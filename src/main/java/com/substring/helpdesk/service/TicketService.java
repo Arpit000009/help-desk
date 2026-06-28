@@ -20,9 +20,18 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public Ticket updateTicket(Ticket ticket){
-        ticket.setId(null);
-        return ticketRepository.save(ticket);
+    public Ticket updateTicket(Ticket ticket) {
+
+        Ticket existingTicket = ticketRepository.findById(ticket.getId())
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        existingTicket.setSummary(ticket.getSummary());
+        existingTicket.setDescription(ticket.getDescription());
+        existingTicket.setPriority(ticket.getPriority());
+        existingTicket.setCategory(ticket.getCategory());
+        existingTicket.setStatus(ticket.getStatus());
+
+        return ticketRepository.save(existingTicket);
     }
 
     public Ticket getTicket(Long ticketId){

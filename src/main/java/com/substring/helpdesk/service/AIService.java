@@ -10,6 +10,8 @@ import lombok.Setter;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,16 @@ public class AIService {
                 .user(query)
                 .call()
                 .content();
+    }
+
+    public Flux<String> streamResponseFromAAssistant(String query, String conversationId){
+        return this.chatClient
+                .prompt()
+                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID,conversationId))
+                .tools(ticketDatabaseTool,emailTool)
+                .system(systemPromptResource)
+                .user(query)
+                .stream().content();
     }
 
 }
