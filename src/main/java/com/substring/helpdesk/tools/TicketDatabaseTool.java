@@ -28,7 +28,7 @@ public class TicketDatabaseTool {
         ticket.setCategory(request.getCategory());
         ticket.setPriority(request.getPriority());
 
-        // Backend-managed fields
+        // Backend-managed field
         ticket.setStatus(Status.OPEN);
 
         return ticketService.createTicket(ticket);
